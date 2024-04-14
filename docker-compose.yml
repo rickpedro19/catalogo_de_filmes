@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+      - 5555:5555
+    volumes:
+      - .:/home/node/app
+
+  mls:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=movies
+      - POSTGRESQL_PASSWORD=movies123
+      - POSTGRESQL_DATABASE=moviesDatabase
+  
+  redis:
+    image: redis
+    command: redis-server --requirepass mls123
+    ports:
+    - "6379:6379"
